@@ -10,11 +10,12 @@
                 component.set("v.session", answer.session);
                 Array.prototype.push.apply(messages, answer.messages);
                 component.set("v.messages", messages);
-                if (answer && answer.messages && answer.messages[0] && answer.messages[0].records && answer.messages[0].records[0].fields && answer.messages[0].records[0].fields[0] && answer.messages[0].records[0].fields[0].linkURL) {
-                    window.open(answer.messages[0].records[0].fields[0].linkURL, '_self'); 
-                }
+                // if (answer && answer.messages && answer.messages[0] && answer.messages[0].records && answer.messages[0].records[0].fields && answer.messages[0].records[0].fields[0] && answer.messages[0].records[0].fields[0].linkURL) {
+                //     window.open(answer.messages[0].records[0].fields[0].linkURL, '_self'); 
+                // }
             }
         });
+        component.find("voiceInput").clear();
 	},
     
     postbackButtonClickHandler : function(component, event, helper) {
@@ -58,6 +59,15 @@
             };
             reader.readAsDataURL(file);
         }
-	}
+    },
+    
+    fieldClickHandler: function(component, event) {
+        var urlEvent = $A.get("e.force:navigateToURL");
+        urlEvent.setParams({
+          "url": event.target.href
+        });
+        urlEvent.fire();
+        event.preventDefault();
+    }
     
 })
